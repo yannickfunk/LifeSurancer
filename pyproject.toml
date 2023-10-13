@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-gradio = "^3.47.1"
+gradio = "~3.46"
 
 
 [build-system]
