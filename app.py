@@ -131,6 +131,7 @@ def get_relevant_images(query):
     ]
     return dummy_urls
 
+
 dummy_data = {
     "realsophiegrace": {
         "profile": "resources/sophie_pp.jpg",
@@ -138,10 +139,15 @@ dummy_data = {
             "resources/sophie_2.jpg",
             "resources/sophie_1.jpg",
             "resources/sophie_3.jpg",
-            "resources/sophie_4.jpg"
+            "resources/sophie_4.jpg",
         ],
-        "tags": ["Haustiere", "Reisen", "Essen", "Natur", "Strand" ],
-        "recommendations": {"Hundeversicherung": 0.98, "Pferdeversicherung": 0.9, "Reiseversicherung": 0.7, "Hausratversicherung":0.4}
+        "tags": ["Haustiere", "Reisen", "Essen", "Natur", "Strand"],
+        "recommendations": {
+            "Hundeversicherung": 0.98,
+            "Pferdeversicherung": 0.9,
+            "Reiseversicherung": 0.7,
+            "Hausratversicherung": 0.4,
+        },
     },
     "mariusquast": {
         "profile": "resources/marius_pp.jpg",
@@ -149,26 +155,35 @@ dummy_data = {
             "resources/marius_1.jpg",
             "resources/marius_2.jpg",
             "resources/marius_3.jpg",
-            "resources/marius_4.jpg"
-            ],
+            "resources/marius_4.jpg",
+        ],
         "tags": ["Ski", "E-Bike", "Natur", "Reisen"],
-        "recommendations": {"Auslandskrankenversicherung": 0.88, "E-Bike Versicherung": 0.70, "Reiseversicherung": 0.63}
-    }
+        "recommendations": {
+            "Auslandskrankenversicherung": 0.88,
+            "E-Bike Versicherung": 0.70,
+            "Reiseversicherung": 0.63,
+        },
+    },
 }
 
 dummy_tiktok_data = {
-        "@mathisox": {
+    "@mathisox": {
         "profile": "resources/mathis_pp.jpg",
         "images": [
             "resources/mathis_1.jpg",
             "resources/mathis_2.jpg",
             "resources/mathis_3.jpg",
-            "resources/mathis_4.jpg"
-            ],
-        "tags": ["Auto", "Motorrad", "Reisen", "DIY" ],
-        "recommendations": {"Oldtimer-Versicherung": 0.93, "KFZ-Versicherung": 0.82, "Hausratversicherung":0.4}
+            "resources/mathis_4.jpg",
+        ],
+        "tags": ["Auto", "Motorrad", "Reisen", "DIY"],
+        "recommendations": {
+            "Oldtimer-Versicherung": 0.93,
+            "KFZ-Versicherung": 0.82,
+            "Hausratversicherung": 0.4,
+        },
     }
 }
+
 
 def get_recommendations():
     # random numpy array of shape 5
@@ -201,28 +216,33 @@ def on_click(text, platform):
     tags = get_tags()
     checked_tags = gr.CheckboxGroup(choices=tags, value=tags)
 
-    return recommendations, checked_tags, images, "https://dummyimage.com/600x400/000/fff"
+    return (
+        recommendations,
+        checked_tags,
+        images,
+        "https://dummyimage.com/600x400/000/fff",
+    )
 
-current_platform = "Instagram"
 
 def on_platform_change(platform):
-    current_platform = platform
     if platform == "Instagram":
-        return gr.Image("instagram_logo.webp"), gr.Textbox(
-            placeholder="https://www.instagram.com/mariusquast/"
-        ), gr.Dropdown(
-                label="Wähle dein Profil aus:",
+        return (
+            gr.Image("instagram_logo.webp"),
+            gr.Textbox(placeholder="https://www.instagram.com/mariusquast/"),
+            gr.Dropdown(
+                value="mariusquast",
                 choices=["realsophiegrace", "mariusquast"],
-                elem_classes=["comp"],
-            )
+            ),
+        )
     elif platform == "TikTok":
-        return gr.Image("tiktok_logo.webp"), gr.Textbox(
-            placeholder="https://www.tiktok.com/@h3llomarc"
-        ), gr.Dropdown(
-                label="Wähle dein Profil aus:",
-                choices=[ "@mathisox"],
-                elem_classes=["comp"],
-            )
+        return (
+            gr.Image("tiktok_logo.webp"),
+            gr.Textbox(placeholder="https://www.tiktok.com/@h3llomarc"),
+            gr.Dropdown(
+                value="@mathisox",
+                choices=["@mathisox"],
+            ),
+        )
 
 
 theme = gr.themes.Soft(
@@ -251,6 +271,7 @@ with gr.Blocks(theme=theme, css=css) as demo:
             # )
             disp_text_input = gr.Dropdown(
                 label="Wähle dein Profil aus:",
+                value="mariusquast",
                 choices=["realsophiegrace", "mariusquast"],
                 elem_classes=["comp"],
             )
@@ -277,7 +298,7 @@ with gr.Blocks(theme=theme, css=css) as demo:
                 label="Wir empfehlen dir:", elem_classes=["comp"], num_top_classes=5
             )
             disp_tags = gr.CheckboxGroup(
-               label="Dein Lifestyle-Profil:", elem_classes=["comp"]
+                label="Dein Lifestyle-Profil:", elem_classes=["comp"]
             )
 
             with gr.Accordion(
