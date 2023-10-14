@@ -6,8 +6,9 @@ authors = ["Yannick Funk <yannick.funk@visioncheckout.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.10,<3.11"
 gradio = "~3.46"
+numpy = "^1.26.0"
 
 
 [build-system]
