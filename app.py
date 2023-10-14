@@ -309,7 +309,7 @@ with gr.Blocks(theme=theme, css=css) as demo:
 
     # submit button
     with gr.Row():
-        gr.Button("Submit", variant="primary").click(
+        gr.Button("Jetzt versichern!", variant="primary").click(
             fn=on_click, inputs=inputs, outputs=outputs
         )
 
