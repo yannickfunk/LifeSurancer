@@ -114,6 +114,10 @@ footer {visibility: hidden}
     margin-bottom: 20px;
 }
 
+#platformlogo {
+    margin: auto;
+}
+
 """
 
 
@@ -144,7 +148,7 @@ def get_tags():
     return tags
 
 
-def on_click(text):
+def on_click(text, platform):
     images = get_relevant_images(text)
     recommendations = get_recommendations()
 
@@ -154,12 +158,23 @@ def on_click(text):
     return recommendations, checked_tags, images
 
 
+def on_platform_change(platform):
+    if platform == "Instagram":
+        return gr.Image("instagram_logo.webp"), gr.Textbox(
+            placeholder="https://www.instagram.com/mariusquast/"
+        )
+    elif platform == "TikTok":
+        return gr.Image("tiktok_logo.webp"), gr.Textbox(
+            placeholder="https://www.tiktok.com/@h3llomarc"
+        )
+
+
 theme = gr.themes.Soft(
     primary_hue="lime",
     secondary_hue="green",
 )
 with gr.Blocks(theme=theme, css=css) as demo:
-    # row for logo
+    # row for logogra
     with gr.Row():
         gr.HTML(logo)
 
@@ -167,10 +182,33 @@ with gr.Blocks(theme=theme, css=css) as demo:
     with gr.Row():
         # left column (inputs)
         with gr.Column():
-            disp_text_input = gr.Textbox(
-                placeholder="Enter your instagram username", elem_classes=["comp"]
+            disp_radio = gr.Radio(
+                label="Wähle deine Social Media Plattform:",
+                value="Instagram",
+                elem_classes=["comp"],
+                choices=["Instagram", "TikTok"],
             )
-        inputs = [disp_text_input]
+            disp_text_input = gr.Textbox(
+                label="Gib deinen Profillink ein:",
+                placeholder="https://www.instagram.com/mariusquast/",
+                elem_classes=["comp"],
+            )
+            disp_platform_preview = gr.Image(
+                "instagram_logo.webp",
+                label="Vorschau",
+                elem_classes=["comp"],
+                elem_id="platformlogo",
+                show_label=False,
+                show_download_button=False,
+                height=160,
+                width=160,
+            )
+            disp_radio.change(
+                fn=on_platform_change,
+                inputs=[disp_radio],
+                outputs=[disp_platform_preview, disp_text_input],
+            )
+        inputs = [disp_text_input, disp_radio]
 
         # right column (outputs)
         with gr.Column():
