@@ -1,6 +1,4 @@
 import gradio as gr
-import requests
-
 
 def image_search(query):
     dummy_urls = [
@@ -15,7 +13,7 @@ def image_search(query):
 
 def recommendation(tags):
     # Your recommendation algorithm here
-    return "Based on your tags, we recommend..."
+    return "Based on your tags, we recommend...."
 
 
 def image_search_interface(query):
@@ -25,19 +23,20 @@ def image_search_interface(query):
     return images, gr.update(choices=tags), recommendation
 
 
-iface = gr.Interface(
+demo = gr.Interface(
+
     fn=image_search_interface,
     inputs=gr.Textbox(placeholder="Enter a instagram username"),
     outputs=[
-        gr.Gallery(preview=True, label="Images", type="auto", max_columns=3),
+        gr.Gallery(preview=True, label="Images"),
         gr.CheckboxGroup(["A", "B"], label="Travelling with (select all)"),
         gr.Label(label="Recommendations"),
     ],
     title="Image Search",
     description="Enter a instagram username to search for recommended insurance products.",
-    allow_flagging=False,
+    allow_flagging="never",
     layout="vertical",
     thumbnail=None
 )
 
-iface.launch()
+demo.launch()
